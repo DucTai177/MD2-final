@@ -1,108 +1,91 @@
 <!doctype html>
-<html lang="vi">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>E-Wallet - Quản lý chi tiêu</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>Finance Manager</title>
   </head>
   <body>
-    <div class="app-container">
-      <header class="app-header">
-        <h2>Quản Lý Chi Tiêu</h2>
-        <div class="month-filter">
-          <input type="month" id="month-picker" title="Chọn tháng thống kê" />
+    <div class="container">
+      <header>
+        <h1>E-WALLET Dashboard</h1>
+        <div>
+          <label for="monthSelect">Tháng: </label>
+          <input type="month" id="monthSelect" />
         </div>
       </header>
-
-      <div id="alert-container"></div>
-
-      <section class="card dashboard">
-        <div class="balance-section">
-          <p>Số dư hiện tại</p>
-          <h1 id="current-balance" class="text-green">0 đ</h1>
-        </div>
-        <div class="summary-section">
-          <div class="summary-box">
-            <p>Thu tháng này</p>
-            <h3 id="total-income" class="text-green">0 đ</h3>
+      <main>
+        <section>
+          <h1>Tổng quan</h1>
+          <div>
+            <span>Số dư hiện tại: </span>
+            <strong id="totalBalance">0 d</strong>
           </div>
-          <div class="summary-box">
-            <p>Chi tháng này</p>
-            <h3 id="total-expense" class="text-red">0 đ</h3>
+          <div>
+            <span>Tổng thu: </span> <strong id="totalIncome">0d</strong>
+            <span>Tổng chi: </span> <strong id="totalExpense">0d</strong>
           </div>
-        </div>
-      </section>
-
-      <div class="grid-layout">
-        <section class="card">
-          <h3 class="section-title">Giao dịch mới</h3>
-          <form id="transaction-form">
-            <div class="form-group">
-              <input
-                type="number"
-                id="trans-amount"
-                placeholder="Số tiền (+ là thu, - là chi)"
-                required
-              />
-            </div>
-            <div class="form-group">
-              <select id="trans-category" required>
-                <option value="">Chọn danh mục...</option>
-                  <option value="">đi chơi</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <input
-                type="text"
-                id="trans-note"
-                placeholder="Ghi chú (Tùy chọn)"
-              />
-            </div>
-            <div class="form-group">
-              <input type="date" id="trans-date" required />
-            </div>
-            <button type="submit" class="btn btn-primary">Lưu giao dịch</button>
+          <div>
+            <span>Ngân sách tổng: </span>
+            <strong id="budgetStatusText">Đạt</strong>
+          </div>
+          <div
+            style="width: 100%; background: #fff; height: 10px; margin-top: 5px"
+          >
+            <div
+              id="budgetProgess"
+              style="height: 100%; background-color: green; width: 0%"
+            ></div>
+          </div>
+        </section>
+        <hr />
+        <section>
+          <h1>Danh mục và hạn mức</h1>
+          <form id="formCategory">
+            <input
+              type="text"
+              id="catName"
+              placeholder="Tên danh mục"
+              required
+            />
+            <input
+              type="number"
+              id="catLimit"
+              placeholder="Hạn mức"
+              required
+              min="0"
+            />
+            <button type="submit">Thêm danh mục</button>
+          </form>
+          <div id="categoryList" style="margin-top: 15px"></div>
+        </section>
+        <hr />
+        <section>
+          <h1>Thêm giao dịch</h1>
+          <form id="formTransaction">
+            <label for="transAmount">Số tiền: </label>
+            <input type="number" id="transAmount" required min="1" />
+            <select name="transType" id="transType">
+              <option value="chiTien">Chi tiền</option>
+              <option value="thuTien">Thu tiền</option>
+            </select>
+            <br />
+            <label for="transCategory">Danh mục: </label>
+            <select name="transCategory" required id="transCategory"></select>
+            <br />
+            <label for="transDate">Ngày: </label>
+            <input type="date" id="transDate" /> <br />
+            <label for="transNote">Ghi chú: </label>
+            <input type="text" id="transNote" />
+            <button type="submit">Lưu giao dịch</button>
           </form>
         </section>
-
-        <section class="card">
-          <h3 class="section-title">Thêm danh mục</h3>
-          <form id="category-form">
-            <div class="form-group flex-row">
-              <input
-                type="text"
-                id="cat-name"
-                placeholder="Tên danh mục (VD: Ăn uống)"
-                required
-              />
-              <input
-                type="number"
-                id="cat-limit"
-                placeholder="Hạn mức (đ)"
-                required
-              />
-            </div>
-            <button type="submit" class="btn btn-secondary">
-              Thêm danh mục
-            </button>
-          </form>
+        <section>
+          <h1>Lịch sử giao dịch</h1>
+          <div id="transactionList"></div>
         </section>
-      </div>
-
-      <div class="grid-layout">
-        <section class="card">
-          <h3 class="section-title">Lịch sử (Mới nhất trên cùng)</h3>
-          <ul id="transaction-history" class="list-container"></ul>
-        </section>
-
-        <section class="card">
-          <h3 class="section-title">Trạng thái Ngân sách</h3>
-          <div id="category-list" class="list-container"></div>
-        </section>
-      </div>
+      </main>
     </div>
-
-    <script type="module" src="app.js"></script>
+    <script src="./app.js"></script>
   </body>
 </html>
