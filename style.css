@@ -1,0 +1,212 @@
+/* Khai báo biến màu sắc theo yêu cầu NFR-6 */
+:root {
+  --primary-green: #2e7d32;
+  --primary-red: #d32f2f;
+  --bg-color: #f4f6f8;
+  --card-bg: #ffffff;
+  --text-main: #333333;
+  --text-muted: #666666;
+  --border-color: #e0e0e0;
+  --border-radius: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  padding: 20px 10px;
+}
+
+/* Layout chính */
+.app-container {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Định dạng thẻ Card (Các khối trắng) */
+.card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  padding: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.section-title {
+  margin-bottom: 15px;
+  font-size: 1.1rem;
+  color: var(--text-main);
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 8px;
+}
+
+/* Dashboard */
+.dashboard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.balance-section h1 {
+  font-size: 2rem;
+  margin-top: 5px;
+}
+
+.summary-section {
+  display: flex;
+  gap: 30px;
+}
+
+/* Lưới cho các phần Form và List */
+.grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Forms & Inputs */
+.form-group {
+  margin-bottom: 15px;
+}
+
+.flex-row {
+  display: flex;
+  gap: 10px;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+}
+
+input:focus,
+select:focus {
+  border-color: #1976d2;
+}
+
+/* Buttons */
+.btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: white;
+  transition: opacity 0.2s;
+}
+
+.btn:hover {
+  opacity: 0.9;
+}
+
+.btn-primary {
+  background-color: #1976d2;
+}
+.btn-secondary {
+  background-color: #455a64;
+}
+
+/* Tiện ích màu sắc */
+.text-green {
+  color: var(--primary-green) !important;
+  font-weight: bold;
+}
+.text-red {
+  color: var(--primary-red) !important;
+  font-weight: bold;
+}
+
+/* Danh sách (Lists) */
+.list-container {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+}
+
+.delete-btn {
+  color: var(--primary-red);
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 0.9rem;
+}
+
+/* Progress bar (Thanh tiến trình ngân sách) */
+.progress-wrapper {
+  margin-top: 8px;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary-green);
+  transition: width 0.3s ease;
+}
+
+.progress-fill.warning {
+  background-color: orange;
+}
+.progress-fill.danger {
+  background-color: var(--primary-red);
+}
+
+/* Cảnh báo đỏ */
+.alert-box {
+  background-color: #ffebee;
+  color: var(--primary-red);
+  padding: 15px;
+  border-radius: var(--border-radius);
+  border-left: 5px solid var(--primary-red);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+/* Responsive cho Mobile */
+@media (max-width: 768px) {
+  .grid-layout {
+    grid-template-columns: 1fr; /* Gộp thành 1 cột trên điện thoại */
+  }
+
+  .dashboard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
