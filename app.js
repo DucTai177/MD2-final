@@ -7,42 +7,42 @@ function getData() {
   Categories = JSON.parse(localStorage.getItem("Categories")) || [];
   Transactions = JSON.parse(localStorage.getItem("Transactions")) || [];
 
-  if (Categories.length == 0) {
-    Categories = [
-      { id: 1, name: "ăn uống", Limit: 200000 },
-      { id: 2, name: "Đi chơi", Limit: 300000 },
-      { id: 3, name: "Lương", Limit: 500000 },
-    ];
-  }
+  // if (Categories.length == 0) {
+  //   Categories = [
+  //     { id: 1, name: "ăn uống", Limit: 200000 },
+  //     { id: 2, name: "Đi chơi", Limit: 300000 },
+  //     { id: 3, name: "Lương", Limit: 500000 },
+  //   ];
+  // }
 
-  if (Transactions.length == 0) {
-    Transactions = [
-      {
-        id: 1,
-        name: "ăn uống",
-        amount: 20000,
-        date: "2024-06",
-        categoryId: 1,
-        giaoDich: "Thu",
-      },
-      {
-        id: 2,
-        name: "Đi chơi",
-        amount: 50000,
-        date: "2024-06",
-        categoryId: 2,
-        giaoDich: "Thu",
-      },
-      {
-        id: 3,
-        name: "Lương",
-        amount: 100000,
-        date: "2024-06",
-        categoryId: 3,
-        giaoDich: "Thu",
-      },
-    ];
-  }
+  // if (Transactions.length == 0) {
+  //   Transactions = [
+  //     {
+  //       id: 1,
+  //       name: "ăn uống",
+  //       amount: 20000,
+  //       date: "2024-06",
+  //       categoryId: 1,
+  //       giaoDich: "Thu",
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "Đi chơi",
+  //       amount: 50000,
+  //       date: "2024-06",
+  //       categoryId: 2,
+  //       giaoDich: "Thu",
+  //     },
+  //     {
+  //       id: 3,
+  //       name: "Lương",
+  //       amount: 100000,
+  //       date: "2024-06",
+  //       categoryId: 3,
+  //       giaoDich: "Thu",
+  //     },
+  //   ];
+  // }
   saveData("Categories", Categories);
   saveData("Transactions", Transactions);
 }
@@ -114,6 +114,7 @@ function renderTransaction() {
         </div>
   `;
   });
+  totalMoney();
 }
 
 //thêm gia dịch
@@ -140,3 +141,45 @@ document.querySelector("#formTransaction").addEventListener("submit", (e) => {
   e.target.reset();
   renderTransaction();
 });
+
+//Xóa danh mục
+function deleteCategory(id) {
+  if (confirm("Bạn muốn xóa không?")) {
+    const newLiCates = Categories.filter((cat) => cat.id != id);
+    Categories = newLiCates;
+    saveData("Categories", Categories);
+    renderCategory();
+  }
+}
+
+//Xóa giao dịch
+function deleteTransaction(id) {
+  if (confirm("Bạn muốn xóa không?")) {
+    const newLiTrans = Transactions.filter((trans) => trans.id != id);
+    Transactions = newLiTrans;
+    saveData("Transactions", Transactions);
+    renderTransaction();
+  }
+}
+
+// Đẩy số dư lên màn
+function totalMoney() {
+  let Thu = 0;
+  let Chi = 0;
+  Transactions.forEach((trans) => {
+    const soTien = Number(trans.amount);
+    if (trans.giaoDich == "Thu") {
+      Thu += soTien;
+    } else {
+      Chi += soTien;
+    }
+  });
+  const tinhToan = Thu - Chi;
+
+  document.querySelector("#totalThu").innerHTML = Thu;
+  document.querySelector("#totalChi").innerHTML = Chi;
+
+  const tinhEL = document.querySelector("#totalBalance");
+  tinhEL.innerHTML = tinhToan;
+  tinhEL.style.color = tinhToan > 0 ? "green" : "red";
+}
