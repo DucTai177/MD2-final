@@ -99,6 +99,7 @@ document.querySelector("#formCategory").addEventListener("submit", (e) => {
 function renderTransaction() {
   const listEL = document.querySelector("#transactionList");
   listEL.innerHTML = "";
+
   Transactions.forEach((trans) => {
     const categoryTr = Categories.find((cat) => cat.id == trans.categoryId);
     const catName = categoryTr ? categoryTr.name : "";
@@ -113,7 +114,7 @@ function renderTransaction() {
         <button onClick="deleteTransaction('${trans.id}')" style="margin-left: 10px;">Xóa</button>
         </div>
   `;
-  });
+    });
   totalMoney();
 }
 
