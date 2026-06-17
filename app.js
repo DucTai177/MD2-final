@@ -3,6 +3,7 @@ let Categories = [];
 let Transactions = [];
 
 let locNgay = new Date().toISOString().substring(0, 7);
+
 function getData() {
   Categories = JSON.parse(localStorage.getItem("Categories")) || [];
   Transactions = JSON.parse(localStorage.getItem("Transactions")) || [];
@@ -100,7 +101,7 @@ function renderTransaction() {
   const listEL = document.querySelector("#transactionList");
   listEL.innerHTML = "";
 
-  Transactions.forEach((trans) => {
+  [...Transactions].reverse().forEach((trans) => {
     const categoryTr = Categories.find((cat) => cat.id == trans.categoryId);
     const catName = categoryTr ? categoryTr.name : "";
     const thu = trans.giaoDich == "Thu";
@@ -114,7 +115,7 @@ function renderTransaction() {
         <button onClick="deleteTransaction('${trans.id}')" style="margin-left: 10px;">Xóa</button>
         </div>
   `;
-    });
+  });
   totalMoney();
 }
 
@@ -141,6 +142,7 @@ document.querySelector("#formTransaction").addEventListener("submit", (e) => {
 
   e.target.reset();
   renderTransaction();
+  notifi();
 });
 
 //Xóa danh mục
@@ -183,4 +185,21 @@ function totalMoney() {
   const tinhEL = document.querySelector("#totalBalance");
   tinhEL.innerHTML = tinhToan;
   tinhEL.style.color = tinhToan > 0 ? "green" : "red";
+}
+
+// //THông báo vướt quá hạn mức
+function notifi() {
+  Categories.forEach((cat) => {
+    let tongChi = 0;
+    Transactions.forEach((trans) => {
+      if (+trans.categoryId == cat.id && trans.giaoDich == "Chi") {
+        tongChi += +trans.amount;
+      }
+    });
+    if (tongChi > +cat.Limit) {
+      alert(
+        `Cảnh báo: Danh mục "${cat.name}" đã vượt quá hạn mức!\n- Hạn mức: ${cat.Limit}\n- Đã chi: ${tongChi}`,
+      );
+    }
+  });
 }
