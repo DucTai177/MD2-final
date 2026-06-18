@@ -2,48 +2,12 @@
 let Categories = [];
 let Transactions = [];
 
-let locNgay = new Date().toISOString().substring(0, 7);
+// let locNgay = new Date().toISOString().substring(0, 7);
 
 function getData() {
   Categories = JSON.parse(localStorage.getItem("Categories")) || [];
   Transactions = JSON.parse(localStorage.getItem("Transactions")) || [];
 
-  // if (Categories.length == 0) {
-  //   Categories = [
-  //     { id: 1, name: "ăn uống", Limit: 200000 },
-  //     { id: 2, name: "Đi chơi", Limit: 300000 },
-  //     { id: 3, name: "Lương", Limit: 500000 },
-  //   ];
-  // }
-
-  // if (Transactions.length == 0) {
-  //   Transactions = [
-  //     {
-  //       id: 1,
-  //       name: "ăn uống",
-  //       amount: 20000,
-  //       date: "2024-06",
-  //       categoryId: 1,
-  //       giaoDich: "Thu",
-  //     },
-  //     {
-  //       id: 2,
-  //       name: "Đi chơi",
-  //       amount: 50000,
-  //       date: "2024-06",
-  //       categoryId: 2,
-  //       giaoDich: "Thu",
-  //     },
-  //     {
-  //       id: 3,
-  //       name: "Lương",
-  //       amount: 100000,
-  //       date: "2024-06",
-  //       categoryId: 3,
-  //       giaoDich: "Thu",
-  //     },
-  //   ];
-  // }
   saveData("Categories", Categories);
   saveData("Transactions", Transactions);
 }
@@ -65,7 +29,7 @@ function renderCategory() {
     listEL.innerHTML += `
     <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding: 10px; border-bottom: 1px solid #ccc;">
       <span><strong>${cat.name}</strong></span>
-      <span>Hạn mức: ${cat.Limit} </span>
+      <span>Hạn mức: ${cat.Limit} (VNĐ) </span>
       <button onclick="deleteCategory(${cat.id})">Xóa</button>
     </div>
     `;
@@ -82,7 +46,12 @@ document.querySelector("#formCategory").addEventListener("submit", (e) => {
   getData();
 
   const name = document.querySelector("#catName").value;
-  const limit = document.querySelector("#catLimit").value;
+  const limit = +document.querySelector("#catLimit").value;
+
+  if( limit <=0){
+    alert("Hạn mức không được âm")
+    return;
+  }
 
   const newCategory = {
     id: Categories.length + 1,
@@ -111,7 +80,7 @@ function renderTransaction() {
     listEL.innerHTML += ` 
 <div style="border-bottom: 1px dashed #ccc; padding: 5px 0;">
         <strong>${catName}</strong> - (${trans.date}) - <i>${trans.note}</i> <br>
-        <strong style="color: ${color}">${dau} ${trans.amount}</strong>
+        <strong style="color: ${color}">${dau} ${trans.amount} (VNĐ)</strong>
         <button onClick="deleteTransaction('${trans.id}')" style="margin-left: 10px;">Xóa</button>
         </div>
   `;
@@ -179,11 +148,11 @@ function totalMoney() {
   });
   const tinhToan = Thu - Chi;
 
-  document.querySelector("#totalThu").innerHTML = Thu;
-  document.querySelector("#totalChi").innerHTML = Chi;
+  document.querySelector("#totalThu").innerHTML = Thu + "(VNĐ)";
+  document.querySelector("#totalChi").innerHTML = Chi + "(VNĐ)";
 
   const tinhEL = document.querySelector("#totalBalance");
-  tinhEL.innerHTML = tinhToan;
+  tinhEL.innerHTML = tinhToan + "(VNĐ)";
   tinhEL.style.color = tinhToan > 0 ? "green" : "red";
 }
 
